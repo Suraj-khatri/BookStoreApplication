@@ -1,19 +1,77 @@
-﻿using BookStoreApplication.Models;
+﻿using BookStoreApplication.Data;
+using BookStoreApplication.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookStoreApplication.Repository
 {
     public class BookRepository
     {
-        public List<BookModel> GetAllBooks()
+        private readonly BookContext _context = null;
+
+        public BookRepository(BookContext bookContext)
         {
-            return DataSource();
+            _context = bookContext;
         }
 
-        public BookModel GetById(int id)
+        public async Task<int> AddNewBook(BookModel model)
         {
-            return DataSource().Where(x=>x.Id == id).FirstOrDefault();
+            var newBook = new Book()
+            {
+                Author = model.Author,
+                Title = model.Title,
+                Description = model.Description,
+                TotalPages = model.TotalPages,
+                //Language = model.Language,
+                Category = model.Category,
+                CreatedOn = DateTime.UtcNow,
+                UpdatedOn = DateTime.UtcNow,
+            };
+            await _context.books.AddAsync(newBook);
+            await _context.SaveChangesAsync();
+            return newBook.Id;
+        }
+        public async Task<List<BookModel>> GetAllBooks()
+        {
+            var books = new List<BookModel>();
+            var allBooks = await _context.books.Select(x => new BookModel()
+            {
+                Title = x.Title,
+                Author = x.Author,
+                Category = x.Category,
+                Description = x.Description,
+                TotalPages = x.TotalPages,
+                Id = x.Id,
+                Language = x.Language,
+                
+            }
+            ).ToListAsync();
+            return allBooks;
+        }
+
+        public async Task<BookModel> GetById(int id)
+        {
+            var book =await _context.books.FindAsync(id);  // find is used for promary key and we use where for other.
+            if(book != null)
+            {
+                var bookmodel = new BookModel()
+                {
+                    Title = book.Title,
+                    Author = book.Author,
+                    Category = book.Category,
+                    Description = book.Description,
+                    TotalPages = book.TotalPages,
+                    Id = id,
+                    Language = book.Language,
+
+                };
+                return bookmodel;
+            }
+            return null;
         }
 
         public List<BookModel> SearchBook(string title,string authorName)

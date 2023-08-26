@@ -3,11 +3,22 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <environment include="Development">
+        <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    </environment>
+
+    <environment exclude="Development">
+        <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css.map" rel="stylesheet" />
+
+    </environment>
+
+    
     <link href="~/css/site.css" rel="stylesheet" />
     <title>BookStore</title>
 </head>
-<body>
+<body class="container">
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
@@ -25,10 +36,10 @@
                     </ul>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="/home/index" class="nav-link">Home</a>
+                            <a asp-controller="home" asp-action="index" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/home/aboutus" class="nav-link">About</a>
+                            <a asp-controller="home" asp-action="aboutus" class="nav-link">About</a>
                         </li>
                         <li class="nav-item">
                             <a asp-controller="home" asp-action="contactus" class="nav-link">Contact</a>
@@ -37,7 +48,7 @@
                             <a href="/book/getallbooks" class="nav-link">Get Books</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-controller="bookstore" asp-action="addnewbook" class="nav-link">Add New Books</a>
+                            <a asp-controller="book" asp-action="addnewbook" class="nav-link">Add New Books</a>
                         </li>
 
                     </ul>

@@ -1,7 +1,9 @@
+using BookStoreApplication.Data;
 using BookStoreApplication.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +27,9 @@ namespace BookStoreApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContextPool<BookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
+
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif
