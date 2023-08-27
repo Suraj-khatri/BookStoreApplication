@@ -10,5 +10,6 @@ namespace BookStoreApplication.Data
         }
 
         public DbSet<Book> books { get; set; }
+        public DbSet<Language> Language { get; set; }
     }
 }
