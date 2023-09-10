@@ -1,8 +1,12 @@
 ﻿using BookStoreApplication.Models;
 using BookStoreApplication.Repository;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace BookStoreApplication.Controllers
@@ -11,10 +15,12 @@ namespace BookStoreApplication.Controllers
     {
         private readonly BookRepository _repository = null;
         private readonly LanguageRepository _languageRepository = null;
-        public BookController(BookRepository repository, LanguageRepository languageRepository)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public BookController(BookRepository repository, LanguageRepository languageRepository, IWebHostEnvironment env)
         {
             _repository = repository;
             _languageRepository = languageRepository;
+            _webHostEnvironment = env;
         }
         public async Task<ViewResult> GetAllBooks()
         {
@@ -45,6 +51,12 @@ namespace BookStoreApplication.Controllers
         {
             if(ModelState.IsValid)
             {
+                if(bookModel.CoverPhoto != null)
+                {
+                    string folder = "books/cover/";
+                   bookModel.CoverImageUrl= await UploadImage(folder,bookModel.CoverPhoto);
+                }
+
                 int id = await _repository.AddNewBook(bookModel);
                 if (id > 0)
                 {
@@ -62,6 +74,18 @@ namespace BookStoreApplication.Controllers
 
 
             return View();
+
+             async Task<string> UploadImage(string folderPath,IFormFile file)
+            {
+                
+                // here we upload photo with unique name and if 2 pto have same name so we append guid for unique name
+
+                folderPath += Guid.NewGuid().ToString() + "_" + bookModel.CoverPhoto.FileName;
+                string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+                await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                return "/" + folderPath;
+                
+            }
         }
     }
 }

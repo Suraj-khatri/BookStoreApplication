@@ -30,6 +30,7 @@ namespace BookStoreApplication.Repository
                 Category = model.Category,
                 CreatedOn = DateTime.UtcNow,
                 UpdatedOn = DateTime.UtcNow,
+                CoverImageUrl = model.CoverImageUrl,
             };
             await _context.books.AddAsync(newBook);
             await _context.SaveChangesAsync();
@@ -48,6 +49,7 @@ namespace BookStoreApplication.Repository
                 Id = x.Id,
                 LanguageId = x.LanguageId,
                 Language = x.Language.Name,
+                CoverImageUrl= x.CoverImageUrl,
                 
             }
             ).ToListAsync();
@@ -67,6 +69,7 @@ namespace BookStoreApplication.Repository
                     Id = id,
                     LanguageId = book.LanguageId,
                     Language = book.Language.Name,
+                    CoverImageUrl = book.CoverImageUrl,
                 }).FirstOrDefaultAsync(); 
         }
 
