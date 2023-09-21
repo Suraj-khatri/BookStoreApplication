@@ -32,6 +32,17 @@ namespace BookStoreApplication.Repository
                 UpdatedOn = DateTime.UtcNow,
                 CoverImageUrl = model.CoverImageUrl,
             };
+            newBook.Gallery = new List<BookGallery>();
+
+            foreach(var file in model.Gallery)
+            {
+                newBook.Gallery.Add(new BookGallery()
+                {
+                    Name = file.Name,
+                    URL = file.URL,
+                });
+            }
+
             await _context.books.AddAsync(newBook);
             await _context.SaveChangesAsync();
             return newBook.Id;

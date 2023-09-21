@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -55,6 +56,21 @@ namespace BookStoreApplication.Controllers
                 {
                     string folder = "books/cover/";
                    bookModel.CoverImageUrl= await UploadImage(folder,bookModel.CoverPhoto);
+                }
+
+                if (bookModel.GalleryFiles != null)
+                {
+                    string folder = "books/gallery/";
+                    bookModel.Gallery = new List<GalleryModel>();
+                    foreach(var file in bookModel.GalleryFiles)
+                    {
+                        var gallery = new GalleryModel()
+                        {
+                            Name = file.Name,
+                            URL = await UploadImage(folder, file),
+                        };
+                    bookModel.Gallery.Add(gallery);
+                    }
                 }
 
                 int id = await _repository.AddNewBook(bookModel);

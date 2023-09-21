@@ -4,14 +4,16 @@ using BookStoreApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStoreApplication.Migrations
 {
     [DbContext(typeof(BookContext))]
-    partial class BookContextModelSnapshot : ModelSnapshot
+    [Migration("20230921153051_addedgallerytable")]
+    partial class addedgallerytable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,11 +119,9 @@ namespace BookStoreApplication.Migrations
 
             modelBuilder.Entity("BookStoreApplication.Data.BookGallery", b =>
                 {
-                    b.HasOne("BookStoreApplication.Data.Book", "Book")
+                    b.HasOne("BookStoreApplication.Data.Book", null)
                         .WithMany("Gallery")
                         .HasForeignKey("BookId1");
-
-                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("BookStoreApplication.Data.Book", b =>

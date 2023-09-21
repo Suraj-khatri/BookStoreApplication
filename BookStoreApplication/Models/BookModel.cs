@@ -1,5 +1,6 @@
 ﻿using BookStoreApplication.Enums;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStoreApplication.Models
@@ -26,6 +27,7 @@ namespace BookStoreApplication.Models
         public string CoverImageUrl { get; set; }
         [Display(Name = "Choose you gallery images of your photo")]
         [Required]
-        public IFormCollection GalleryFiles { get; set; }
+        public IEnumerable<IFormFile> GalleryFiles { get; set; }
+        public List<GalleryModel> Gallery { get; set; }
     }
 }
