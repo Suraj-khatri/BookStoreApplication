@@ -16,24 +16,15 @@
 
 </section>
 
-<h2>Top Books</h2>
+
 <div class="py-5 bg-light">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-               @*<partial name="_bookThumbnail" model="new BookModel()"/>*@
-               @Html.Partial("_bookThumbnail",new BookModel())
-            </div>
-            <div class="col-md-4">
-                @*<partial name="_bookThumbnail" model="new BookModel()"/>*@
-                @await Html.PartialAsync("_bookThumbnail",new BookModel())
+        <h2>Top Books</h2>
 
-            </div>
-            <div class="col-md-4">
-                 <partial name="_bookThumbnail" model="new BookModel()"/>
-
-            </div>
-        </div>
+        @await Component.InvokeAsync("TopBooks",new {count=5})
+      
+        
+       
 
     </div>
 

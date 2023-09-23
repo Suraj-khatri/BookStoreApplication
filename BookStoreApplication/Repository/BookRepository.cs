@@ -51,7 +51,7 @@ namespace BookStoreApplication.Repository
         public async Task<List<BookModel>> GetAllBooks()
         {
             var books = new List<BookModel>();
-            var allBooks = await _context.books.Select(x => new BookModel()
+            return await _context.books.Select(x => new BookModel()
             {
                 Title = x.Title,
                 Author = x.Author,
@@ -65,6 +65,27 @@ namespace BookStoreApplication.Repository
                 
             }
             ).ToListAsync();
+            
+        }
+
+        //for viewcomponent
+        public async Task<List<BookModel>> GetTopBooks(int count)
+        {
+            var books = new List<BookModel>();
+            var allBooks = await _context.books.Select(x => new BookModel()
+            {
+                Title = x.Title,
+                Author = x.Author,
+                Category = x.Category,
+                Description = x.Description,
+                TotalPages = x.TotalPages,
+                Id = x.Id,
+                LanguageId = x.LanguageId,
+                Language = x.Language.Name,
+                CoverImageUrl = x.CoverImageUrl,
+
+            }
+            ).Take(count).ToListAsync();
             return allBooks;
         }
 
