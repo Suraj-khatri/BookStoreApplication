@@ -73,6 +73,13 @@ namespace BookStoreApplication.Controllers
                     }
                 }
 
+                if (bookModel.BookPdf != null)
+                {
+                    string folder = "books/pdf/";
+                    bookModel.BookpdfUrl = await UploadImage(folder, bookModel.BookPdf);
+                }
+
+
                 int id = await _repository.AddNewBook(bookModel);
                 if (id > 0)
                 {
@@ -96,7 +103,7 @@ namespace BookStoreApplication.Controllers
                 
                 // here we upload photo with unique name and if 2 pto have same name so we append guid for unique name
 
-                folderPath += Guid.NewGuid().ToString() + "_" + bookModel.CoverPhoto.FileName;
+                folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
                 string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
                 await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
                 return "/" + folderPath;

@@ -31,6 +31,7 @@ namespace BookStoreApplication.Repository
                 CreatedOn = DateTime.UtcNow,
                 UpdatedOn = DateTime.UtcNow,
                 CoverImageUrl = model.CoverImageUrl,
+                BookPdfUrl = model.BookpdfUrl,
             };
             newBook.Gallery = new List<BookGallery>();
 
@@ -81,6 +82,13 @@ namespace BookStoreApplication.Repository
                     LanguageId = book.LanguageId,
                     Language = book.Language.Name,
                     CoverImageUrl = book.CoverImageUrl,
+                    Gallery = book.Gallery.Select(g => new GalleryModel()
+                    {
+                        Id = g.Id,
+                        Name = g.Name,
+                        URL = g.URL,
+                    }).ToList(),
+                    BookpdfUrl = book.BookPdfUrl,
                 }).FirstOrDefaultAsync(); 
         }
 
