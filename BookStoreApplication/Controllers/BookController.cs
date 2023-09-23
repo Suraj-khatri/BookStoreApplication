@@ -14,10 +14,10 @@ namespace BookStoreApplication.Controllers
 {
     public class BookController : Controller
     {
-        private readonly BookRepository _repository = null;
-        private readonly LanguageRepository _languageRepository = null;
+        private readonly IBookRepository _repository = null;
+        private readonly ILanguageRepository _languageRepository = null;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public BookController(BookRepository repository, LanguageRepository languageRepository, IWebHostEnvironment env)
+        public BookController(IBookRepository repository, ILanguageRepository languageRepository, IWebHostEnvironment env)
         {
             _repository = repository;
             _languageRepository = languageRepository;
@@ -41,7 +41,7 @@ namespace BookStoreApplication.Controllers
 /*                Language="Nepali"
 */            };
 
-            ViewBag.Languages = new SelectList(await _languageRepository.GetLanguages(),"Id","Name");
+           /* ViewBag.Languages = new SelectList(await _languageRepository.GetLanguages(),"Id","Name");*/
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
             return View(model);
@@ -87,8 +87,8 @@ namespace BookStoreApplication.Controllers
                 }
             }
 
-            ViewBag.Languages = new SelectList(await _languageRepository.GetLanguages(), "Id", "Name");
-
+/*            ViewBag.Languages = new SelectList(await _languageRepository.GetLanguages(), "Id", "Name");
+*/
 
             //we have to assign it with initial value
             //we write this because after if block this will execute not addnewbook

@@ -34,8 +34,8 @@ namespace BookStoreApplication
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif
 
-            services.AddTransient<BookRepository, BookRepository>();
-            services.AddTransient<LanguageRepository, LanguageRepository>();
+            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<ILanguageRepository, LanguageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

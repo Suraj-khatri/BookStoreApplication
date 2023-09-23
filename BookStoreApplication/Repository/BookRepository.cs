@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreApplication.Repository
 {
-    public class BookRepository
+    public class BookRepository : IBookRepository
     {
         private readonly BookContext _context = null;
 
@@ -35,7 +35,7 @@ namespace BookStoreApplication.Repository
             };
             newBook.Gallery = new List<BookGallery>();
 
-            foreach(var file in model.Gallery)
+            foreach (var file in model.Gallery)
             {
                 newBook.Gallery.Add(new BookGallery()
                 {
@@ -61,11 +61,11 @@ namespace BookStoreApplication.Repository
                 Id = x.Id,
                 LanguageId = x.LanguageId,
                 Language = x.Language.Name,
-                CoverImageUrl= x.CoverImageUrl,
-                
+                CoverImageUrl = x.CoverImageUrl,
+
             }
             ).ToListAsync();
-            
+
         }
 
         //for viewcomponent
@@ -110,14 +110,17 @@ namespace BookStoreApplication.Repository
                         URL = g.URL,
                     }).ToList(),
                     BookpdfUrl = book.BookPdfUrl,
-                }).FirstOrDefaultAsync(); 
+                }).FirstOrDefaultAsync();
         }
 
-        public List<BookModel> SearchBook(string title,string authorName)
+        public List<BookModel> SearchBook(string title, string authorName)
         {
             return null;
         }
+        public string GetAppName()
+        {
+            return "Book Store Application";
+        }
 
-        
     }
 }
