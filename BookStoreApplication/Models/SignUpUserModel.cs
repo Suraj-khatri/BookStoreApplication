@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookStoreApplication.Models
 {
     public class SignUpUserModel
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         [Required(ErrorMessage ="please enter your email")]
         [Display(Name ="Email Address")]
         [EmailAddress(ErrorMessage ="Please enter a valid email")]

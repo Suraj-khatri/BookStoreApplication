@@ -1,4 +1,5 @@
 using BookStoreApplication.Data;
+using BookStoreApplication.Models;
 using BookStoreApplication.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,7 @@ namespace BookStoreApplication
             services.AddControllersWithViews();
 
             services.AddDbContextPool<BookContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<BookContext>();
 
 #if DEBUG
@@ -39,6 +40,7 @@ namespace BookStoreApplication
 
             services.AddTransient<IBookRepository, BookRepository>();
             services.AddTransient<ILanguageRepository, LanguageRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
