@@ -1,5 +1,6 @@
 ﻿using BookStoreApplication.Models;
 using BookStoreApplication.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreApplication.Controllers
 {
+    
     public class BookController : Controller
     {
         private readonly IBookRepository _repository = null;
@@ -23,6 +25,7 @@ namespace BookStoreApplication.Controllers
             _languageRepository = languageRepository;
             _webHostEnvironment = env;
         }
+        [Authorize]
         public async Task<ViewResult> GetAllBooks()
         {
             var data = await _repository.GetAllBooks();
@@ -33,7 +36,7 @@ namespace BookStoreApplication.Controllers
             var data =await _repository.GetById(id);
             return View(data);
         }
-
+        [Authorize]
         public async Task<ViewResult> AddNewBook(bool isSuccess=false , int bookId = 0)
         {
             var model = new BookModel()

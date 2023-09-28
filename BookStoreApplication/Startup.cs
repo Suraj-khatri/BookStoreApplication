@@ -43,6 +43,15 @@ namespace BookStoreApplication
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
             });
+            //for redirection
+            services.ConfigureApplicationCookie(config =>
+            {
+                //we can also define login path in appsetting json file see there
+                config.LoginPath = Configuration["Application:LoginPath"];
+
+                //we can use this way also
+               // config.LoginPath = "/login";
+            });
 
 
 
@@ -72,7 +81,7 @@ namespace BookStoreApplication
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

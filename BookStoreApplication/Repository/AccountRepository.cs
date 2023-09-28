@@ -34,5 +34,9 @@ namespace BookStoreApplication.Repository
           var result = await _signInManager.PasswordSignInAsync(signInModel.Email, signInModel.Password, signInModel.RememberMe, false);
             return result;
         }
+        public async Task signOutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }
